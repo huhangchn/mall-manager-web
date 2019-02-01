@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.huhangchn.dao.AttributeMapper">
+  <resultMap id="BaseResultMap" type="com.github.huhangchn.model.Attribute">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  
+  <resultMap id="AttributeDtoMap" type="com.github.huhangchn.dto.AttributeDto" autoMapping="true">
+    <id column="attribute_id" property="id" />
+    <collection property="attributeValue" ofType="com.github.huhangchn.model.AttributeValue" autoMapping="true">
+      <id column="value_id" property="id" />
+    </collection>
+  </resultMap>
+  <select id="selectBasicOptions" resultMap="AttributeDtoMap">
+    SELECT
+      a.id AS attribute_id,
+      a.*,
+      av.id AS value_id,
+      av.*
+    FROM
+      attribute a,
+      attribute_value av
+    WHERE
+      a.id = av.attribute_id
+  </select>
+</mapper>

@@ -1,9 +1,12 @@
 package com.github.huhangchn.dto;
 
+import com.github.huhangchn.model.AttributeValue;
 import com.github.huhangchn.model.Goods;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class DtoUtil {
     public static Product Goods2Product(Goods goods) {
@@ -29,5 +32,20 @@ public class DtoUtil {
             productDetail.setProductImageSmall(Arrays.asList(gallery.split(",")));
         }
         return productDetail;
+    }
+
+
+    public static List<AttributeFront> AttributeDto2AttributeFront(List<AttributeDto> attributeDtoList) {
+        List<AttributeFront> attributeFrontList = new ArrayList<>();
+        for (AttributeDto attributeDto : attributeDtoList) {
+            AttributeFront attributeFront = new AttributeFront();
+
+            for (AttributeValue attributeValue : attributeDto.getAttributeValue()) {
+
+            }
+
+            attributeFrontList.add(attributeFront);
+        }
+        return null;
     }
 }

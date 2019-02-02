@@ -1,16 +1,14 @@
 package com.github.huhangchn.front.controller;
 
 import com.github.huhangchn.dto.AllGoodsResult;
+import com.github.huhangchn.dto.GoodsFrontSearchDto;
 import com.github.huhangchn.result.Result;
 import com.github.huhangchn.result.ResultFactory;
 import com.github.huhangchn.service.ContentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/goods")
@@ -20,7 +18,7 @@ public class FrontGoodsController {
     @Autowired
     private ContentService contentService;
 
-    @RequestMapping(value = "/allGoods",method = RequestMethod.GET)
+    @GetMapping(value = "/allGoods")
     @ApiOperation(value = "所有商品")
     public Result getAllProduct(@RequestParam(defaultValue = "1") int page,
                                                 @RequestParam(defaultValue = "20") int size,
@@ -32,10 +30,22 @@ public class FrontGoodsController {
         AllGoodsResult allGoodsResult=contentService.getAllProduct(page,size,sort,cid,priceGt,priceLte);
         return ResultFactory.success(allGoodsResult);
     }
-    @RequestMapping(value = "/productDet",method = RequestMethod.GET)
+    @GetMapping(value = "/productDet")
     @ApiOperation(value = "商品详情")
     public Result getAllProduct(@RequestParam Integer productId){
         return ResultFactory.success(contentService.getProductDetail(productId));
     }
 
+    @GetMapping(value = "/attributeList")
+    @ApiOperation(value = "商品属性分类")
+    public Result getAttributeList(){
+        return ResultFactory.success(contentService.getAttributeList());
+    }
+
+    @PostMapping(value = "/search")
+    @ApiOperation(value = "条件搜索")
+    public Result search(@RequestBody GoodsFrontSearchDto searchDto){
+        AllGoodsResult result = contentService.getBySearchDto(searchDto);
+        return ResultFactory.success(result);
+    }
 }

@@ -31,26 +31,72 @@
 			<result column="sku_name" jdbcType="VARCHAR" property="name"/>
 		</collection>
 	</resultMap>
+	<resultMap id="GoodsValuesDtoMap" type="com.github.huhangchn.dto.GoodsValuesDto" autoMapping="true">
+		<id column="goods_id" jdbcType="INTEGER" property="id"/>
+		<collection property="basicValueId" ofType="Integer" column="value_id" autoMapping="true">
+			<constructor>
+				<arg column="value_id"/>
+			</constructor>
+		</collection>
+	</resultMap>
 	<select id="selectGoodsInfo" resultMap="GoodsInfoDtoMap">
-		SELECT
-			g.id AS goods_id,
-			g.*,
-			s.id AS sku_id,
-		    s.name AS sku_name,
-			s.*,
-			gav.id AS gav_id,
-			gav.*
-		FROM
-			goods g,
-			sku s,
-			goods_attribute_value gav
-		WHERE
-			g.id = s.goods_id
+		SELECT g.id   AS goods_id,
+		       g.*,
+		       s.id   AS sku_id,
+		       s.name AS sku_name,
+		       s.*,
+		       gav.id AS gav_id,
+		       gav.*
+		FROM goods g,
+		     sku s,
+		     goods_attribute_value gav
+		WHERE g.id = s.goods_id
 		  AND g.id = gav.goods_id
-		  AND g.id =#{goodsId}
+		  AND g.is_on_sale = 1
+		  AND g.id = #{goodsId}
 	</select>
 	
 	<select id="selectGoods" resultMap="BaseResultMap">
-		select * from goods
+		select *
+		from goods
+		where is_on_sale = 1
+	</select>
+	
+	<select id="selectBySearchDto" resultMap="GoodsValuesDtoMap">
+		SELECT g.id AS goods_id,
+			g.*,
+			gav.id AS gav_id,
+			gav.*
+		FROM goods g,
+			goods_attribute_value gav
+		WHERE g.id = gav.goods_id
+			AND g.is_on_sale = 1
+		<if test="brandId!=null">
+			AND g.brand_id = 4
+		</if>
+		<if test="categoryId!=null">
+			AND category_id = #{brandId}
+		</if>
+		<!--SELECT-->
+		<!--g.*-->
+		<!--FROM-->
+		<!--goods g,-->
+		<!--attribute_value av,-->
+		<!--goods_attribute_value gav-->
+		<!--WHERE-->
+		<!--g.id = gav.goods_id-->
+		<!--AND gav.value_id = av.id-->
+		<!--AND g.is_on_sale = 1-->
+		<!--<if test="brandId!=null">-->
+		<!--AND g.brand_id = 4-->
+		<!--</if>-->
+		<!--<if test="categoryId!=null">-->
+		<!--AND category_id = #{brandId}-->
+		<!--</if>-->
+		<!--<if test="valueIds!=null and valueIds!=''">-->
+		<!--AND av.id IN ( ${valueIds} )-->
+		<!--</if>-->
+		<!--GROUP BY-->
+		<!--g.id-->
 	</select>
 </mapper>

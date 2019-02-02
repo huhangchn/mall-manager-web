@@ -9,4 +9,25 @@
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
     <result column="value_id" jdbcType="INTEGER" property="valueId" />
   </resultMap>
+  
+  <resultMap id="GoodsIdValuesMap" type="com.github.huhangchn.dto.GoodsIdValuesDto" autoMapping="true">
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <collection property="valueIdList" ofType="Integer" column="value_id" autoMapping="true">
+      <constructor>
+        <arg column="value_id"/>
+      </constructor>
+    </collection>
+  </resultMap>
+  <select id="selectAllGoodsIdValues" resultMap="GoodsIdValuesMap">
+#     select goods_id, value_id from  goods_attribute_value
+    SELECT g.id   AS goods_id,
+           gav.id AS gav_id,
+           gav.*
+    FROM goods g,
+         goods_attribute_value gav
+    WHERE
+       g.id = gav.goods_id
+      AND g.is_on_sale = 1
+      AND g.id = 4
+  </select>
 </mapper>

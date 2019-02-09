@@ -1,6 +1,7 @@
 package com.github.huhangchn.service;
 
 import com.github.huhangchn.dto.*;
+import com.github.huhangchn.model.Sku;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface ContentService {
     List<AttributeDto> getAttributeList();
 
     AllGoodsResult getBySearchDto(GoodsFrontSearchDto searchDto);
+
+    List<Sku> getProductSaleInfo(Integer productId);
 }

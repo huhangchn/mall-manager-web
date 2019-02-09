@@ -20,7 +20,7 @@ public class FrontGoodsController {
 
     @GetMapping(value = "/allGoods")
     @ApiOperation(value = "所有商品")
-    public Result getAllProduct(@RequestParam(defaultValue = "1") int page,
+    public Result allGoods(@RequestParam(defaultValue = "1") int page,
                                                 @RequestParam(defaultValue = "20") int size,
                                                 @RequestParam(defaultValue = "") String sort,
                                                 @RequestParam(defaultValue = "") Long cid,
@@ -32,8 +32,17 @@ public class FrontGoodsController {
     }
     @GetMapping(value = "/productDet")
     @ApiOperation(value = "商品详情")
-    public Result getAllProduct(@RequestParam Integer productId){
+    public Result productDet(@RequestParam Integer productId){
         return ResultFactory.success(contentService.getProductDetail(productId));
+    }
+
+    /**
+     *  颜色，尺码的相关信息
+     */
+    @GetMapping(value = "/productSaleInfo")
+    @ApiOperation(value = "颜色，尺码的相关信息")
+    public Result productSaleInfo(@RequestParam Integer productId){
+        return ResultFactory.success(contentService.getProductSaleInfo(productId));
     }
 
     @GetMapping(value = "/attributeList")

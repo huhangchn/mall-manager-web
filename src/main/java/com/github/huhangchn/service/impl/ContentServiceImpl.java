@@ -4,8 +4,10 @@ import com.github.huhangchn.dao.AttributeMapper;
 import com.github.huhangchn.dao.GoodsMapper;
 import com.github.huhangchn.dto.*;
 import com.github.huhangchn.model.Goods;
+import com.github.huhangchn.model.Sku;
 import com.github.huhangchn.service.ContentService;
 import com.github.huhangchn.service.GoodsAttributeValueService;
+import com.github.huhangchn.service.SkuService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class ContentServiceImpl implements ContentService {
 
     @Autowired
     private GoodsAttributeValueService gavService;
+
+    @Autowired
+    private SkuService skuService;
 
     @Override
     public AllGoodsResult getAllProduct(int page, int size, String sort, Long cid, int priceGt, int priceLte) {
@@ -113,6 +118,11 @@ public class ContentServiceImpl implements ContentService {
         allGoodsResult.setTotal((int) pageInfo.getTotal());
 
         return allGoodsResult;
+    }
+
+    @Override
+    public List<Sku> getProductSaleInfo(Integer productId) {
+        return skuService.findByGoodsId(productId);
     }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
 * Created by CodeGenerator on 2019/01/29.
 */
@@ -21,5 +23,10 @@ public class SkuServiceImpl extends AbstractService<Sku> implements SkuService {
     @Override
     public int deleteByGoodsId(Integer goodsId) {
         return skuMapper.deleteByGoodsId(goodsId);
+    }
+
+    @Override
+    public List<Sku> findByGoodsId(Integer goodsId) {
+        return skuMapper.selectByGoodsId(goodsId);
     }
 }

@@ -10,6 +10,7 @@ import com.github.huhangchn.service.GoodsAttributeValueService;
 import com.github.huhangchn.service.SkuService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Condition;
@@ -37,7 +38,6 @@ public class ContentServiceImpl implements ContentService {
     public AllGoodsResult getAllProduct(int page, int size, String sort, Long cid, int priceGt, int priceLte) {
 
         AllGoodsResult allGoodsResult = new AllGoodsResult();
-        List<Product> list = new ArrayList<>();
 
         PageHelper.startPage(page, size);
 
@@ -53,15 +53,23 @@ public class ContentServiceImpl implements ContentService {
         }
 
         List<Goods> goodsList = goodsMapper.selectGoods(cid, orderCol, orderDir, priceGt, priceLte);
-        for (Goods goods : goodsList) {
-            Product product = DtoUtil.Goods2Product(goods);
-            list.add(product);
-        }
+
+        List<Product> list = goodsList2ProductList(goodsList);
+
         PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);
         allGoodsResult.setData(list);
         allGoodsResult.setTotal((int) pageInfo.getTotal());
 
         return allGoodsResult;
+    }
+
+    private List<Product> goodsList2ProductList(List<Goods> goodsList) {
+        List<Product> list = new ArrayList<>();
+        for (Goods goods : goodsList) {
+            Product product = DtoUtil.Goods2Product(goods);
+            list.add(product);
+        }
+        return list;
     }
 
     @Override
@@ -90,29 +98,25 @@ public class ContentServiceImpl implements ContentService {
         Integer categoryId = searchDto.getCategoryId();
         List<Integer> valueIdsList = searchDto.getValueIds();
         List<Integer> goodsIdList = gavService.findGoodsIdsByAllValueIdList(valueIdsList);
-        if(goodsIdList == null || goodsIdList.isEmpty()){
+        if (goodsIdList == null || goodsIdList.isEmpty()) {
             return new AllGoodsResult();
         }
 
         Condition condition = new Condition(Goods.class);
         Example.Criteria criteria = condition.createCriteria();
-        criteria.andIn("id", goodsIdList);
         if (brandId != null)
-            criteria.andEqualTo(brandId);
+            criteria.andEqualTo("brandId", brandId);
         if (categoryId != null)
-            criteria.andEqualTo(categoryId);
+            criteria.andEqualTo("categoryId", categoryId);
+        criteria.andIn("id", goodsIdList);
 
         AllGoodsResult allGoodsResult = new AllGoodsResult();
-        List<Product> list = new ArrayList<>();
 
         PageHelper.startPage(page, size);
         List<Goods> goodsList = goodsMapper.selectByCondition(condition);
         PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);
 
-        for (Goods goods : goodsList) {
-            Product product = DtoUtil.Goods2Product(goods);
-            list.add(product);
-        }
+        List<Product> list = goodsList2ProductList(goodsList);
 
         allGoodsResult.setData(list);
         allGoodsResult.setTotal((int) pageInfo.getTotal());
@@ -123,6 +127,26 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public List<Sku> getProductSaleInfo(Integer productId) {
         return skuService.findByGoodsId(productId);
+    }
+
+    @Override
+    public AllGoodsResult findByKey(String key, int page, int size) {
+        Condition condition = new Condition(Goods.class);
+        Example.Criteria criteria = condition.createCriteria();
+
+        if (StringUtils.isNotEmpty(key)) {
+            criteria.andLike("name", "%" + key + "%");
+        }
+        PageHelper.startPage(page, size);
+        List<Goods> goodsList = goodsMapper.selectByCondition(condition);
+        PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);
+
+        List<Product> productList = goodsList2ProductList(goodsList);
+
+        AllGoodsResult allGoodsResult = new AllGoodsResult();
+        allGoodsResult.setData(productList);
+        allGoodsResult.setTotal((int) pageInfo.getTotal());
+        return allGoodsResult;
     }
 
 }

@@ -15,4 +15,6 @@ public interface ContentService {
     AllGoodsResult getBySearchDto(GoodsFrontSearchDto searchDto);
 
     List<Sku> getProductSaleInfo(Integer productId);
+
+    AllGoodsResult findByKey(String key, int page, int size);
 }

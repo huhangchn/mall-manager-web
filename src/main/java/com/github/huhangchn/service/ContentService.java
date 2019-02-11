@@ -17,4 +17,8 @@ public interface ContentService {
     List<Sku> getProductSaleInfo(Integer productId);
 
     AllGoodsResult findByKey(String key, int page, int size);
+
+    ProductDetail getProductDetailBySkuId(Integer skuId);
+
+    Integer getGoodsIdBySkuId(Integer skuId);
 }

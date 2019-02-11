@@ -13,4 +13,6 @@ public interface SkuService extends Service<Sku> {
     int deleteByGoodsId(Integer goodsId);
 
     List<Sku> findByGoodsId(Integer goodsId);
+
+    Integer findGoodsIdBySkuId(Integer skuId);
 }

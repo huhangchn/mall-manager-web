@@ -29,4 +29,9 @@ public class SkuServiceImpl extends AbstractService<Sku> implements SkuService {
     public List<Sku> findByGoodsId(Integer goodsId) {
         return skuMapper.selectByGoodsId(goodsId);
     }
+
+    @Override
+    public Integer findGoodsIdBySkuId(Integer skuId) {
+        return skuMapper.selectGoodsIdBySkuId(skuId);
+    }
 }

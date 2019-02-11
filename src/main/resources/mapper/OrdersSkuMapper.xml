@@ -9,6 +9,7 @@
     <result column="orders_id" jdbcType="INTEGER" property="ordersId" />
     <result column="sku_id" jdbcType="INTEGER" property="skuId" />
     <result column="sku_name" jdbcType="VARCHAR" property="skuName" />
+    <result column="sku_image" jdbcType="VARCHAR" property="skuImage" />
     <result column="sku_price" jdbcType="DECIMAL" property="skuPrice" />
     <result column="purchase_num" jdbcType="INTEGER" property="purchaseNum" />
     <result column="discount_price" jdbcType="DECIMAL" property="discountPrice" />

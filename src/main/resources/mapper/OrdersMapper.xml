@@ -10,6 +10,7 @@
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="region_id" jdbcType="INTEGER" property="regionId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
@@ -25,4 +26,41 @@
     <result column="rlogistics_channel" jdbcType="VARCHAR" property="rlogisticsChannel" />
     <result column="rlogistics_no" jdbcType="VARCHAR" property="rlogisticsNo" />
   </resultMap>
+  
+  <resultMap id="OrdersModelMap" type="com.github.huhangchn.dto.OrdersModel" autoMapping="true">
+    <id column="orders_id" jdbcType="INTEGER" property="id" />
+    <collection property="ordersSkuList" ofType="com.github.huhangchn.model.OrdersSku" autoMapping="true">
+      <id column="os_id" jdbcType="INTEGER" property="id" />
+    </collection>
+  </resultMap>
+  
+  <select id="selectOrdersModelByUserId" resultMap="OrdersModelMap">
+    SELECT
+      o.id AS orders_id,
+      o.*,
+      os.id AS os_id,
+      os.*
+    FROM
+      USER u,
+      orders o,
+      orders_sku os
+    WHERE
+      u.id = o.user_id
+      AND o.id = os.orders_id
+      AND u.id = #{userId}
+  </select>
+  
+  <select id="selectOrderModelByOrderId" resultMap="OrdersModelMap">
+    SELECT
+      o.id AS orders_id,
+      o.*,
+      os.id AS os_id,
+      os.*
+    FROM
+      orders o,
+      orders_sku os
+    WHERE
+      o.id = os.orders_id
+      AND o.id = #{orderId}
+  </select>
 </mapper>

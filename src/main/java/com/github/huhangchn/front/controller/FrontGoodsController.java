@@ -49,6 +49,17 @@ public class FrontGoodsController {
     public Result productDet(@RequestParam Integer productId) {
         return ResultFactory.success(contentService.getProductDetail(productId));
     }
+    @GetMapping(value = "/productDetBySkuId")
+    @ApiOperation(value = "通过skuId获取商品详情")
+    public Result productDetBySkuId(@RequestParam Integer skuId) {
+        return ResultFactory.success(contentService.getProductDetailBySkuId(skuId));
+    }
+
+    @GetMapping(value = "/goodsIdBySkuId")
+    @ApiOperation(value = "通过skuId获取商品id")
+    public Result goodsIdBySkuId(@RequestParam Integer skuId) {
+        return ResultFactory.success(contentService.getGoodsIdBySkuId(skuId));
+    }
 
     /**
      * 颜色，尺码的相关信息

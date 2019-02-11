@@ -1,7 +1,7 @@
 package com.github.huhangchn.model;
 
-import java.math.BigDecimal;
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Table(name = "orders_sku")
 public class OrdersSku {
@@ -26,6 +26,13 @@ public class OrdersSku {
      */
     @Column(name = "sku_name")
     private String skuName;
+
+    /**
+     * 产品图片
+     */
+    @Column(name = "sku_image")
+    private String skuImage;
+
 
     /**
      * 商品单价
@@ -190,4 +197,13 @@ public class OrdersSku {
     public void setActualPrice(BigDecimal actualPrice) {
         this.actualPrice = actualPrice;
     }
+
+    public String getSkuImage() {
+        return skuImage;
+    }
+
+    public void setSkuImage(String skuImage) {
+        this.skuImage = skuImage;
+    }
+
 }

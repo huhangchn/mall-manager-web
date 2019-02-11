@@ -149,4 +149,19 @@ public class ContentServiceImpl implements ContentService {
         return allGoodsResult;
     }
 
+    @Override
+    public ProductDetail getProductDetailBySkuId(Integer skuId) {
+        Integer goodsId = skuService.findById(skuId).getGoodsId();
+        Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+        if (goods == null) {
+            return null;
+        }
+        return DtoUtil.Goods2ProductDetail(goods);
+    }
+
+    @Override
+    public Integer getGoodsIdBySkuId(Integer skuId) {
+        return skuService.findGoodsIdBySkuId(skuId);
+    }
+
 }

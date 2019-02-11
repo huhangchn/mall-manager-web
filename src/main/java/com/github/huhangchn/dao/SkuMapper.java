@@ -13,4 +13,7 @@ public interface SkuMapper extends Mapper<Sku> {
 
     @Select("select * from sku where goods_id = #{goodsId}")
     List<Sku> selectByGoodsId(Integer goodsId);
+
+    @Select("select goods_id from sku where id = #{skuId}")
+    Integer selectGoodsIdBySkuId(Integer skuId);
 }

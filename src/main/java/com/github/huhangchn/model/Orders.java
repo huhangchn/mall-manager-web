@@ -40,6 +40,11 @@ public class Orders {
     private Integer regionId;
 
     /**
+     * 收货人
+     */
+    private String name;
+
+    /**
      * 收货地址
      */
     private String address;

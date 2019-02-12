@@ -14,9 +14,9 @@
 		<result column="pic_url" jdbcType="VARCHAR" property="picUrl"/>
 		<result column="gallery" jdbcType="VARCHAR" property="gallery"/>
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-		<result column="price" jdbcType="TIMESTAMP" property="price"/>
+		<result column="price" jdbcType="DECIMAL" property="price"/>
 		<result column="is_on_sale" jdbcType="VARCHAR" property="isOnSale" typeHandler="TrueFalseTypeHandler"/>
-		<result column="detail" jdbcType="LONGVARCHAR" property="detail"/>
+		<result column="detail" jdbcType="VARCHAR" property="detail"/>
 	</resultMap>
 	
 	<resultMap id="GoodsInfoDtoMap" type="com.github.huhangchn.dto.GoodsInfoDto" autoMapping="true">

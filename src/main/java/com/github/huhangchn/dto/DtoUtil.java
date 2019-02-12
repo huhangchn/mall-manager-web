@@ -1,5 +1,6 @@
 package com.github.huhangchn.dto;
 
+import com.github.huhangchn.model.Address;
 import com.github.huhangchn.model.AttributeValue;
 import com.github.huhangchn.model.Goods;
 import com.github.huhangchn.model.OrdersSku;
@@ -55,7 +56,7 @@ public class DtoUtil {
     public static OrderDto ordersModel2OrderDto(OrdersModel ordersModel) {
         OrderDto orderDto = new OrderDto();
         orderDto.setOrderId(Long.valueOf(ordersModel.getId()));
-        TbAddress address = new TbAddress();
+        AddressDto address = new AddressDto();
         address.setStreetName(ordersModel.getAddress());
         address.setTel(ordersModel.getMobile());
         address.setUserName(ordersModel.getName());
@@ -86,9 +87,31 @@ public class DtoUtil {
         cartProduct.setProductId(Long.valueOf(ordersSku.getSkuId()));
         cartProduct.setProductName(ordersSku.getSkuName());
         cartProduct.setProductNum(Long.valueOf(ordersSku.getPurchaseNum()));
-        cartProduct.setSalePrice(ordersSku.getActualPrice());
+        cartProduct.setSalePrice(ordersSku.getSkuPrice());
         cartProduct.setProductImg(ordersSku.getSkuImage());
         return cartProduct;
     }
 
+    public static AddressDto Address2AddressDto(Address address) {
+        AddressDto addressDto = new AddressDto();
+        addressDto.setAddressId(Long.valueOf(address.getId()));
+        addressDto.setStreetName(address.getAddress());
+        addressDto.setTel(address.getMobile());
+        addressDto.setUserId(Long.valueOf(address.getUserId()));
+        addressDto.setUserName(address.getName());
+        addressDto.setIsDefault(address.getIsDefault());
+        return addressDto;
+    }
+
+    public static Address addressDto2Address(AddressDto addressDto) {
+        Address address = new Address();
+        Long addressId = addressDto.getAddressId();
+        address.setId(addressId == null ? null : addressId.intValue());
+        address.setAddress(addressDto.getStreetName());
+        address.setMobile(addressDto.getTel());
+        address.setUserId(Integer.valueOf(addressDto.getUserId().toString()));
+        address.setName(addressDto.getUserName());
+        address.setIsDefault(addressDto.getIsDefault());
+        return address;
+    }
 }

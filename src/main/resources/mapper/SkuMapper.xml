@@ -14,4 +14,31 @@
     <result column="shoe_size" jdbcType="VARCHAR" property="shoeSize" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
+  
+  <resultMap id="SkuDtoMap" type="com.github.huhangchn.dto.SkuDto" autoMapping="true">
+    <id column="sku_id" jdbcType="INTEGER" property="id" />
+    <result column="sku_name" jdbcType="VARCHAR" property="name" />
+    <association property="goods" javaType="com.github.huhangchn.model.Goods" autoMapping="true">
+      <id column="goods_id" jdbcType="INTEGER" property="id" />
+      <result column="goods_name" jdbcType="VARCHAR" property="name" />
+      <result column="goods_price" jdbcType="VARCHAR" property="price" />
+    </association>
+  </resultMap>
+  
+  <select id="selectSkuDtoById" resultMap="SkuDtoMap">
+    SELECT
+      s.id AS sku_id,
+      s.name AS sku_name,
+      s.*,
+      g.id AS goods_id,
+      g.name AS goods_name,
+      g.price AS goods_price,
+      g.*
+    FROM
+      sku s,
+      goods g
+    WHERE
+      s.goods_id = g.id
+      AND s.id = #{skuId}
+  </select>
 </mapper>

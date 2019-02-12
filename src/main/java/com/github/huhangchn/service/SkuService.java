@@ -1,4 +1,5 @@
 package com.github.huhangchn.service;
+import com.github.huhangchn.dto.SkuDto;
 import com.github.huhangchn.model.Sku;
 import com.github.huhangchn.core.Service;
 
@@ -15,4 +16,6 @@ public interface SkuService extends Service<Sku> {
     List<Sku> findByGoodsId(Integer goodsId);
 
     Integer findGoodsIdBySkuId(Integer skuId);
+
+    SkuDto findSkuDtoById(Integer skuId);
 }

@@ -54,4 +54,12 @@ public class CartServiceImpl extends AbstractService<Cart> implements CartServic
     public int addNumByUserIdAndSkuId(Integer userId, Integer skuId, Integer num) {
         return cartMapper.addNumByUserIdAndSkuId(userId, skuId, num);
     }
+
+    @Override
+    public List<Cart> findChecked(Integer userId) {
+        Cart cart = new Cart();
+        cart.setUserId(userId);
+        cart.setChecked("1");
+        return cartMapper.select(cart);
+    }
 }

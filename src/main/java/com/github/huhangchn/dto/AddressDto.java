@@ -2,7 +2,7 @@ package com.github.huhangchn.dto;
 
 import java.io.Serializable;
 
-public class TbAddress implements Serializable{
+public class AddressDto implements Serializable{
     private Long addressId;
 
     private Long userId;

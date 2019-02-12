@@ -2,14 +2,19 @@ package com.github.huhangchn.service.impl;
 
 import com.github.huhangchn.core.AbstractService;
 import com.github.huhangchn.dao.OrdersMapper;
+import com.github.huhangchn.dao.OrdersSkuMapper;
 import com.github.huhangchn.dto.*;
-import com.github.huhangchn.model.Orders;
+import com.github.huhangchn.model.*;
+import com.github.huhangchn.service.CartService;
 import com.github.huhangchn.service.OrdersService;
+import com.github.huhangchn.service.SkuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +27,13 @@ public class OrdersServiceImpl extends AbstractService<Orders> implements Orders
     @Autowired
     private OrdersMapper ordersMapper;
 
+    @Autowired
+    private OrdersSkuMapper ordersSkuMapper;
+
+    @Autowired
+    private SkuService skuService;
+    @Autowired
+    private CartService cartService;
     @Override
     public PageOrder getOrderList(Long userId, int page, int size) {
         List<OrdersModel> ordersModelList = ordersMapper.selectOrdersModelByUserId(userId);
@@ -52,12 +64,53 @@ public class OrdersServiceImpl extends AbstractService<Orders> implements Orders
 
     @Override
     public Long createOrder(OrderInfo orderInfo) {
-        return null;
+        Integer userId = Integer.valueOf(orderInfo.getUserId());
+        List<Cart> cartList = cartService.findChecked(userId);
+        Orders orders = getOrders(orderInfo, cartList);
+        ordersMapper.insertSelective(orders);
+        List<OrdersSku> ordersSkuList = getOrdersSkuList(orderInfo, cartList, orders.getId());
+        ordersSkuMapper.insertList(ordersSkuList);
+
+        //从购物车删除
+        cartService.delChecked(userId);
+        return Long.valueOf(orders.getId());
+    }
+
+    private Orders getOrders(OrderInfo orderInfo, List<Cart> cartList) {
+        Orders orders = new Orders();
+        orders.setStatus("0");
+        orders.setUserId(Integer.valueOf(orderInfo.getUserId()));
+        orders.setName(orderInfo.getUserName());
+        orders.setMobile(orderInfo.getTel());
+        orders.setAddress(orderInfo.getStreetName());
+        orders.setTotalPrice(orderInfo.getOrderTotal());
+        orders.setOrderPrice(orderInfo.getOrderTotal());
+        orders.setActualPay(orderInfo.getOrderTotal());
+        orders.setCreateTime(new Date());
+        return orders;
+    }
+
+    private List<OrdersSku> getOrdersSkuList(OrderInfo orderInfo, List<Cart> cartList, Integer ordersId) {
+        List<OrdersSku> ordersSkuList = new ArrayList<>();
+        for (Cart cart : cartList) {
+            SkuDto skuDto = skuService.findSkuDtoById(cart.getSkuId());
+            Goods goods = skuDto.getGoods();
+            OrdersSku ordersSku = new OrdersSku();
+            ordersSku.setOrdersId(ordersId);
+            ordersSku.setSkuId(skuDto.getId());
+            ordersSku.setSkuName(goods.getName());
+            ordersSku.setSkuImage(goods.getPicUrl());
+            ordersSku.setSkuPrice(goods.getPrice());
+            ordersSku.setPurchaseNum(cart.getNum());
+            ordersSku.setActualPrice(goods.getPrice().multiply(new BigDecimal(cart.getNum())));
+            ordersSkuList.add(ordersSku);
+        }
+        return ordersSkuList;
     }
 
     @Override
     public int cancelOrder(Long orderId) {
-        return 0;
+        return ordersMapper.cancelOrder(orderId);
     }
 
     @Override

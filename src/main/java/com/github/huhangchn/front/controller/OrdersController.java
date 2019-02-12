@@ -48,7 +48,6 @@ public class OrdersController {
     @RequestMapping(value = "/orders/cancelOrder",method = RequestMethod.POST)
     @ApiOperation(value = "取消订单")
     public Result cancelOrder(@RequestBody OrderDto order){
-
         int result= ordersService.cancelOrder(order.getOrderId());
         return ResultFactory.success(result);
     }

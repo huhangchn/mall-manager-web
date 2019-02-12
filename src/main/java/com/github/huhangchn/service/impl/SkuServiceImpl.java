@@ -1,6 +1,7 @@
 package com.github.huhangchn.service.impl;
 
 import com.github.huhangchn.dao.SkuMapper;
+import com.github.huhangchn.dto.SkuDto;
 import com.github.huhangchn.model.Sku;
 import com.github.huhangchn.service.SkuService;
 import com.github.huhangchn.core.AbstractService;
@@ -33,5 +34,10 @@ public class SkuServiceImpl extends AbstractService<Sku> implements SkuService {
     @Override
     public Integer findGoodsIdBySkuId(Integer skuId) {
         return skuMapper.selectGoodsIdBySkuId(skuId);
+    }
+
+    @Override
+    public SkuDto findSkuDtoById(Integer skuId) {
+        return skuMapper.selectSkuDtoById(skuId);
     }
 }

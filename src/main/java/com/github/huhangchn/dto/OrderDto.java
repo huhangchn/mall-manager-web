@@ -10,7 +10,7 @@ public class OrderDto implements Serializable{
 
     private BigDecimal orderTotal;
 
-    private TbAddress addressInfo;
+    private AddressDto addressInfo;
 
     private List<CartProduct> goodsList;
 
@@ -64,11 +64,11 @@ public class OrderDto implements Serializable{
         this.orderId = orderId;
     }
 
-    public TbAddress getAddressInfo() {
+    public AddressDto getAddressInfo() {
         return addressInfo;
     }
 
-    public void setAddressInfo(TbAddress addressInfo) {
+    public void setAddressInfo(AddressDto addressInfo) {
         this.addressInfo = addressInfo;
     }
 

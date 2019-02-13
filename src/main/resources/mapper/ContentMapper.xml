@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.huhangchn.dao.ContentMapper">
+  <resultMap id="BaseResultMap" type="com.github.huhangchn.model.Content">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="sub_title" jdbcType="VARCHAR" property="subTitle" />
+    <result column="title_desc" jdbcType="VARCHAR" property="titleDesc" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  
+  
+  <resultMap id="HomeContent" type="com.github.huhangchn.dto.HomeContent" autoMapping="true">
+    <result column="cc_id" jdbcType="INTEGER" property="id" />
+    <collection property="contentList" ofType="com.github.huhangchn.model.Content" autoMapping="true">
+      <result column="c_id" jdbcType="INTEGER" property="id" />
+    </collection>
+  </resultMap>
+  
+  <select id="selectHomeContent" resultMap="HomeContent">
+    SELECT
+      cc.id AS cc_id,
+      cc.*,
+      c.id AS c_id,
+      c.*
+    FROM
+      content c,
+      content_category cc
+    WHERE
+      c.category_id = cc.id
+  </select>
+</mapper>

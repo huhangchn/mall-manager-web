@@ -4,6 +4,7 @@ import com.github.huhangchn.core.AbstractService;
 import com.github.huhangchn.dao.UserMapper;
 import com.github.huhangchn.model.User;
 import com.github.huhangchn.service.UserService;
+import com.github.huhangchn.storage.UploadService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UploadService uploadService;
+
     @Override
     public User findByUsername(String userName) {
         return userMapper.selectByUsername(userName);
@@ -29,5 +33,15 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     public PageInfo<User> findAll(User user, Integer page, Integer size) {
         PageHelper.startPage(page, size);
         return new PageInfo( userMapper.select(user));
+    }
+
+    @Override
+    public String uploadAvatar(Integer userId, String token, byte[] imgData) {
+        String path = uploadService.uploadFile(imgData);
+        User user = new User();
+        user.setId(userId);
+        user.setAvatarUrl(path);
+        userMapper.updateByPrimaryKeySelective(user);
+        return path;
     }
 }

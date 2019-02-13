@@ -13,7 +13,7 @@
     <result column="checked" jdbcType="VARCHAR" property="checked"/>
   </resultMap>
   
-  <resultMap id="CartDtoMap" type="com.github.huhangchn.dto.CartDto">
+  <resultMap id="CartDtoMap" type="com.github.huhangchn.dto.CartDto" autoMapping="true">
     <id column="⁯id" jdbcType="INTEGER" property="⁯id" />
     <result column="sku_id" jdbcType="INTEGER" property="skuId" />
     <result column="product_id" jdbcType="INTEGER" property="productId" />
@@ -21,6 +21,9 @@
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="checked" jdbcType="VARCHAR" property="checked"/>
+    <result column="style" jdbcType="VARCHAR" property="skuStyle" />
+    <result column="shoe_size" jdbcType="VARCHAR" property="shoeSize" />
     <result column="checked" jdbcType="VARCHAR" property="checked"/>
   </resultMap>
   <select id="selectCartList" resultMap="CartDtoMap">
@@ -32,6 +35,8 @@
       c.num AS num,
       g.name AS product_name,
       g.pic_url AS product_img,
+      s.name AS style,
+      s.shoe_size AS shoe_size,
       c.checked AS checked
     FROM
       user u,

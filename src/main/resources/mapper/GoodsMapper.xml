@@ -52,7 +52,6 @@
 		     goods_attribute_value gav
 		WHERE g.id = s.goods_id
 		  AND g.id = gav.goods_id
-		  AND g.is_on_sale = 1
 		  AND g.id = #{goodsId}
 	</select>
 	

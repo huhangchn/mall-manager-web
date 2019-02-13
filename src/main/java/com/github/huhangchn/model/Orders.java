@@ -126,5 +126,9 @@ public class Orders {
     @Column(name = "rlogistics_no")
     private String rlogisticsNo;
 
-
+    /**
+     * 是否删除
+     */
+    @Column(name = "deleted")
+    private Boolean deleted;
 }

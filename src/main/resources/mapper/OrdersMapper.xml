@@ -25,6 +25,7 @@
     <result column="escrow_trade_no" jdbcType="VARCHAR" property="escrowTradeNo" />
     <result column="rlogistics_channel" jdbcType="VARCHAR" property="rlogisticsChannel" />
     <result column="rlogistics_no" jdbcType="VARCHAR" property="rlogisticsNo" />
+    <result column="deleted" jdbcType="VARCHAR" property="deleted" typeHandler="TrueFalseTypeHandler"/>
   </resultMap>
   
   <resultMap id="OrdersModelMap" type="com.github.huhangchn.dto.OrdersModel" autoMapping="true">
@@ -45,7 +46,8 @@
       orders o,
       orders_sku os
     WHERE
-      u.id = o.user_id
+      o.deleted != '1'
+      AND u.id = o.user_id
       AND o.id = os.orders_id
       AND u.id = #{userId}
   </select>
@@ -60,7 +62,8 @@
       orders o,
       orders_sku os
     WHERE
-      o.id = os.orders_id
+      o.deleted != '1'
+      AND o.id = os.orders_id
       AND o.id = #{orderId}
   </select>
 </mapper>

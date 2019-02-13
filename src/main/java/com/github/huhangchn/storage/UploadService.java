@@ -30,4 +30,9 @@ public interface UploadService {
      * 多文件上传 spring mvc
      */
     List<String> uploadFiles(MultipartFile[] multipartFiles);
+
+    /**
+     * 单文件上传 bytes
+     */
+    String uploadFile(byte[] bytes);
 }

@@ -25,6 +25,10 @@ public class CodeMsg {
     public static CodeMsg USER_NOT_FOUND = new CodeMsg(100108, "用户不存在");
     public static CodeMsg PERMISSION_DENIED = new CodeMsg(100109, "无权访问");
     public static CodeMsg AUTH_FAILED = new CodeMsg(100110, "登陆认证失败");
+    public static CodeMsg VALIDATE_FAILED = new CodeMsg(100111, "验证码校验失败");
+    //注册模块
+    public static CodeMsg USERNAME_EXIST = new CodeMsg(100112, "用户名已存在");
+    public static CodeMsg EMPTY_FIELD = new CodeMsg(100113, "用户名或密码为空");
 
 
     //商品模块 1002XX

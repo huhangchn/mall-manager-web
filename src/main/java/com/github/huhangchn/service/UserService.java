@@ -13,4 +13,6 @@ public interface UserService extends Service<User> {
     User findByUsername(String userName);
 
     PageInfo<User> findAll(User user, Integer page, Integer size);
+
+    String uploadAvatar(Integer userId, String token, byte[] imgData);
 }

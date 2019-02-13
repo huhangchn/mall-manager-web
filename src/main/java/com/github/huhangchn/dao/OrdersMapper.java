@@ -14,4 +14,7 @@ public interface OrdersMapper extends Mapper<Orders> {
 
     @Update("update orders set status = '7' where id = #{orderId}")
     int cancelOrder(Long orderId);
+
+    @Update("update orders set deleted = '1' where id = #{orderId}")
+    int deleteLogically(Long orderId);
 }

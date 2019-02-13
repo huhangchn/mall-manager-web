@@ -1,9 +1,6 @@
 package com.github.huhangchn.dto;
 
-import com.github.huhangchn.model.Address;
-import com.github.huhangchn.model.AttributeValue;
-import com.github.huhangchn.model.Goods;
-import com.github.huhangchn.model.OrdersSku;
+import com.github.huhangchn.model.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -89,6 +86,7 @@ public class DtoUtil {
         cartProduct.setProductNum(Long.valueOf(ordersSku.getPurchaseNum()));
         cartProduct.setSalePrice(ordersSku.getSkuPrice());
         cartProduct.setProductImg(ordersSku.getSkuImage());
+        cartProduct.setSkuAttr(ordersSku.getSkuAttr());
         return cartProduct;
     }
 
@@ -113,5 +111,13 @@ public class DtoUtil {
         address.setName(addressDto.getUserName());
         address.setIsDefault(addressDto.getIsDefault());
         return address;
+    }
+
+    public static Member user2Member(User user) {
+        Member member = new Member();
+        member.setId(user.getId().longValue());
+        member.setState(1);
+        member.setFile(user.getAvatarUrl());
+        return member;
     }
 }

@@ -87,6 +87,7 @@ public class OrdersServiceImpl extends AbstractService<Orders> implements Orders
         orders.setOrderPrice(orderInfo.getOrderTotal());
         orders.setActualPay(orderInfo.getOrderTotal());
         orders.setCreateTime(new Date());
+        orders.setDeleted(false);
         return orders;
     }
 
@@ -103,6 +104,8 @@ public class OrdersServiceImpl extends AbstractService<Orders> implements Orders
             ordersSku.setSkuPrice(goods.getPrice());
             ordersSku.setPurchaseNum(cart.getNum());
             ordersSku.setActualPrice(goods.getPrice().multiply(new BigDecimal(cart.getNum())));
+            ordersSku.setSkuAttr("颜色：" + skuDto.getName() + "," + "尺码：" + skuDto.getShoeSize());
+
             ordersSkuList.add(ordersSku);
         }
         return ordersSkuList;
@@ -115,7 +118,7 @@ public class OrdersServiceImpl extends AbstractService<Orders> implements Orders
 
     @Override
     public int delOrder(Long orderId) {
-        return 0;
+        return ordersMapper.deleteLogically(orderId);
     }
 
     @Override

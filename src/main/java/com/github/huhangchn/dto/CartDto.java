@@ -23,4 +23,8 @@ public class CartDto implements Serializable{
 
     private String checked;
 
+    private String skuStyle;
+
+    private String shoeSize;
+
 }

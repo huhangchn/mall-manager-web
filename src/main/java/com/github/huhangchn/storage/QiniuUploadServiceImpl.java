@@ -62,6 +62,11 @@ public class QiniuUploadServiceImpl implements UploadService {
         return ret;
     }
 
+    @Override
+    public String uploadFile(byte[] bytes) {
+        return qiniuUtil.uoload2Qiniu(bytes);
+    }
+
     private String getPath(){
         return uploadBasePath + UUID.randomUUID().toString();
     }

@@ -8,7 +8,7 @@ import com.github.huhangchn.result.Result;
 import com.github.huhangchn.result.ResultFactory;
 import com.github.huhangchn.service.BrandService;
 import com.github.huhangchn.service.CategoryService;
-import com.github.huhangchn.service.ContentService;
+import com.github.huhangchn.service.FrontContentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +23,7 @@ import java.util.List;
 public class FrontGoodsController {
 
     @Autowired
-    private ContentService contentService;
+    private FrontContentService frontContentService;
 
     @Autowired
     private BrandService brandService;
@@ -40,25 +40,25 @@ public class FrontGoodsController {
                            @RequestParam(defaultValue = "-1") int priceGt,
                            @RequestParam(defaultValue = "-1") int priceLte) {
 
-        AllGoodsResult allGoodsResult = contentService.getAllProduct(page, size, sort, cid, priceGt, priceLte);
+        AllGoodsResult allGoodsResult = frontContentService.getAllProduct(page, size, sort, cid, priceGt, priceLte);
         return ResultFactory.success(allGoodsResult);
     }
 
     @GetMapping(value = "/productDet")
     @ApiOperation(value = "商品详情")
     public Result productDet(@RequestParam Integer productId) {
-        return ResultFactory.success(contentService.getProductDetail(productId));
+        return ResultFactory.success(frontContentService.getProductDetail(productId));
     }
     @GetMapping(value = "/productDetBySkuId")
     @ApiOperation(value = "通过skuId获取商品详情")
     public Result productDetBySkuId(@RequestParam Integer skuId) {
-        return ResultFactory.success(contentService.getProductDetailBySkuId(skuId));
+        return ResultFactory.success(frontContentService.getProductDetailBySkuId(skuId));
     }
 
     @GetMapping(value = "/goodsIdBySkuId")
     @ApiOperation(value = "通过skuId获取商品id")
     public Result goodsIdBySkuId(@RequestParam Integer skuId) {
-        return ResultFactory.success(contentService.getGoodsIdBySkuId(skuId));
+        return ResultFactory.success(frontContentService.getGoodsIdBySkuId(skuId));
     }
 
     /**
@@ -67,19 +67,19 @@ public class FrontGoodsController {
     @GetMapping(value = "/productSaleInfo")
     @ApiOperation(value = "颜色，尺码的相关信息")
     public Result productSaleInfo(@RequestParam Integer productId) {
-        return ResultFactory.success(contentService.getProductSaleInfo(productId));
+        return ResultFactory.success(frontContentService.getProductSaleInfo(productId));
     }
 
     @GetMapping(value = "/attributeList")
     @ApiOperation(value = "商品属性分类")
     public Result getAttributeList() {
-        return ResultFactory.success(contentService.getAttributeList());
+        return ResultFactory.success(frontContentService.getAttributeList());
     }
 
     @PostMapping(value = "/search")
     @ApiOperation(value = "条件搜索")
     public Result search(@RequestBody GoodsFrontSearchDto searchDto) {
-        AllGoodsResult result = contentService.getBySearchDto(searchDto);
+        AllGoodsResult result = frontContentService.getBySearchDto(searchDto);
         return ResultFactory.success(result);
     }
 
@@ -91,7 +91,7 @@ public class FrontGoodsController {
         if(StringUtils.isEmpty(key)){
             return ResultFactory.success();
         }
-        AllGoodsResult result = contentService.findByKey(key, page,size);
+        AllGoodsResult result = frontContentService.findByKey(key, page,size);
         return ResultFactory.success(result);
     }
 

@@ -1,10 +1,13 @@
 package com.github.huhangchn.service.impl;
 
 import com.github.huhangchn.core.AbstractService;
+import com.github.huhangchn.core.ServiceException;
 import com.github.huhangchn.dao.OrdersMapper;
 import com.github.huhangchn.dao.OrdersSkuMapper;
 import com.github.huhangchn.dto.*;
 import com.github.huhangchn.model.*;
+import com.github.huhangchn.result.CodeMsg;
+import com.github.huhangchn.result.ResultFactory;
 import com.github.huhangchn.service.CartService;
 import com.github.huhangchn.service.OrdersService;
 import com.github.huhangchn.service.SkuService;
@@ -106,6 +109,10 @@ public class OrdersServiceImpl extends AbstractService<Orders> implements Orders
             ordersSku.setActualPrice(goods.getPrice().multiply(new BigDecimal(cart.getNum())));
             ordersSku.setSkuAttr("颜色：" + skuDto.getName() + "," + "尺码：" + skuDto.getShoeSize());
 
+            if(cart.getNum() > skuDto.getStore()){
+                throw new ServiceException(ResultFactory.error(CodeMsg.STORE_OUT));
+            }
+            skuService.updateByPrimaryKeySelective(new Sku().setId(skuDto.getId()).setStore(skuDto.getStore() - cart.getNum()));
             ordersSkuList.add(ordersSku);
         }
         return ordersSkuList;

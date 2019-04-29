@@ -141,7 +141,9 @@ public class FrontContentServiceImpl implements FrontContentService {
 
         if (StringUtils.isNotEmpty(key)) {
             criteria.andLike("name", "%" + key + "%");
+            criteria.orLike("brief", "%" + key + "%");
         }
+        condition.and().andEqualTo("isOnSale", true);
         PageHelper.startPage(page, size);
         List<Goods> goodsList = goodsMapper.selectByCondition(condition);
         PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);

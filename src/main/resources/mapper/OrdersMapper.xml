@@ -50,6 +50,7 @@
       AND u.id = o.user_id
       AND o.id = os.orders_id
       AND u.id = #{userId}
+    order by o.create_time desc
   </select>
   
   <select id="selectOrderModelByOrderId" resultMap="OrdersModelMap">

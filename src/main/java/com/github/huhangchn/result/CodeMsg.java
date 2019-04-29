@@ -15,9 +15,9 @@ public class CodeMsg {
 
     //登录模块 1001XX
     public static CodeMsg LOGIN_ERROR = new CodeMsg(100100, "登录失败");
-    public static CodeMsg SESSION_ERROR = new CodeMsg(100101, "Session不存在或者已经失效");
+    public static CodeMsg SESSION_ERROR = new CodeMsg(100101, "登录已过期");
     public static CodeMsg PASSWORD_EMPTY = new CodeMsg(100102, "登录密码不能为空");
-    public static CodeMsg MOBILE_EMPTY = new CodeMsg(100103, "手机号不能为空");
+    public static CodeMsg INPUT_ERROR = new CodeMsg(100103, "用户名密码格式错误，必须在6到12位之间");
     public static CodeMsg MOBILE_ERROR = new CodeMsg(100104, "手机号格式错误");
     public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(100105, "手机号不存在");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(100106, "密码错误");
@@ -35,6 +35,8 @@ public class CodeMsg {
 
     //订单模块 1003XX
     public static CodeMsg ORDER_NOT_EXIST = new CodeMsg(100300, "订单不存在");
+
+    public static CodeMsg STORE_OUT = new CodeMsg(100301, "库存不足");
 
     private CodeMsg(int code, String msg) {
         this.code = code;

@@ -115,7 +115,7 @@ public class DtoUtil {
 
     public static Member user2Member(User user) {
         Member member = new Member();
-        member.setId(user.getId().longValue());
+        member.setId(Long.valueOf(user.getId()));
         member.setState(1);
         member.setFile(user.getAvatarUrl());
         return member;

@@ -72,7 +72,7 @@ public class QiniuUtil {
         String upToken = auth.uploadToken(bucket);
         String result;
         try {
-            Response response = uploadManager.put(uploadBytes, accessKey, upToken);
+            Response response = uploadManager.put(uploadBytes, null, upToken);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             result = storageServerBaseUrl + putRet.key;

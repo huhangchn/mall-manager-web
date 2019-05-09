@@ -36,6 +36,12 @@ public class CategoryController {
         return ResultFactory.success(categoryService.findById(id));
     }
 
+    @GetMapping("/listPage")
+    public Result list(@RequestParam(defaultValue = "1") Integer page,
+                       @RequestParam(defaultValue = "10") Integer limit) {
+        return ResultFactory.success(categoryService.findAll(page, limit));
+    }
+
     @GetMapping
     public Result list() {
         return ResultFactory.success(categoryService.findAll());

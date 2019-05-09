@@ -18,7 +18,7 @@ public class GoodsManageController {
     private GoodsService goodsService;
 
     @GetMapping("/list")
-    public Result list(@RequestParam(required = false) String number,
+    public Result list(@RequestParam(required = false) String id,
                        @RequestParam(required = false) String name,
                        @RequestParam(required = false) Integer categoryId,
                        @RequestParam(required = false) Integer brandId,
@@ -29,8 +29,8 @@ public class GoodsManageController {
         Example.Criteria criteria = condition.createCriteria();
         criteria.andEqualTo("categoryId", categoryId)
                 .andEqualTo("brandId", brandId);
-        if(number != null){
-            criteria.andLike("number", "%" + number + "%");
+        if(id != null){
+            criteria.andLike("id", "%" + id + "%");
         }
         if(name != null){
             criteria .andLike("name", "%" + name + "%");

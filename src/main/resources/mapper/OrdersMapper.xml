@@ -53,6 +53,32 @@
     order by o.create_time desc
   </select>
   
+  <select id="selectOrdersModel" resultMap="OrdersModelMap">
+    SELECT
+      o.id AS orders_id,
+      o.*,
+      os.id AS os_id,
+      os.*
+    FROM
+      USER u,
+      orders o,
+      orders_sku os
+    WHERE
+      o.deleted != '1'
+      AND u.id = o.user_id
+      AND o.id = os.orders_id
+    <if test="orderId!=null">
+      AND o.id like '%${orderId}%'
+    </if>
+    <if test="username!=null">
+      AND u.username like '%${username}%'
+    </if>
+    <if test="orderStatus!=null">
+      AND o.status = #{orderStatus}
+    </if>
+    order by o.create_time desc
+  </select>
+  
   <select id="selectOrderModelByOrderId" resultMap="OrdersModelMap">
     SELECT
       o.id AS orders_id,

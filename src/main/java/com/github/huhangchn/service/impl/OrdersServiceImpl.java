@@ -48,6 +48,17 @@ public class OrdersServiceImpl extends AbstractService<Orders> implements Orders
         pageOrder.setData(orderDtoList.stream().skip((page - 1) * size).limit(size).collect(Collectors.toList()));
         return pageOrder;
     }
+    @Override
+    public PageOrder getOrderList(int page, int size, Integer orderId, String username,String orderStatus) {
+        List<OrdersModel> ordersModelList = ordersMapper.selectOrdersModel(orderId, username, orderStatus);
+
+        List<OrderDto> orderDtoList = ordersModelList2OrderDtoList(ordersModelList);
+
+        PageOrder pageOrder = new PageOrder();
+        pageOrder.setTotal(orderDtoList.size());
+        pageOrder.setData(orderDtoList.stream().skip((page - 1) * size).limit(size).collect(Collectors.toList()));
+        return pageOrder;
+    }
 
     private List<OrderDto> ordersModelList2OrderDtoList(List<OrdersModel> ordersModelList) {
         List<OrderDto> orderDtoList = new ArrayList<>();
@@ -129,7 +140,17 @@ public class OrdersServiceImpl extends AbstractService<Orders> implements Orders
     }
 
     @Override
-    public int payOrder(PayInfo payInfo) {
-        return 0;
+    public int payOrder(Long orderId) {
+        return ordersMapper.payOrder(orderId);
+    }
+
+    @Override
+    public int sendOrder(Long orderId) {
+        return ordersMapper.sendOrder(orderId);
+    }
+
+    @Override
+    public int confirmOrder(Long orderId) {
+        return ordersMapper.confirmOrder(orderId);
     }
 }

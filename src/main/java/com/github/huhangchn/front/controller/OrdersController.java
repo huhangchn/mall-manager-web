@@ -3,7 +3,6 @@ package com.github.huhangchn.front.controller;
 import com.github.huhangchn.dto.OrderDto;
 import com.github.huhangchn.dto.OrderInfo;
 import com.github.huhangchn.dto.PageOrder;
-import com.github.huhangchn.dto.PayInfo;
 import com.github.huhangchn.result.Result;
 import com.github.huhangchn.result.ResultFactory;
 import com.github.huhangchn.service.OrdersService;
@@ -60,11 +59,18 @@ public class OrdersController {
         return ResultFactory.success(result);
     }
 
-    @RequestMapping(value = "/orders/payOrder",method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/payOrder",method = RequestMethod.GET)
     @ApiOperation(value = "支付订单")
-    public Result payOrder(@RequestBody PayInfo payInfo){
+    public Result payOrder(@RequestParam String orderId){
 
-        int result= ordersService.payOrder(payInfo);
+        int result= ordersService.payOrder(Long.valueOf(orderId));
+        return ResultFactory.success(result);
+    }
+    @RequestMapping(value = "/orders/confirmOrder",method = RequestMethod.GET)
+    @ApiOperation(value = "支付订单")
+    public Result confirmOrder(@RequestParam String orderId){
+
+        int result= ordersService.confirmOrder(Long.valueOf(orderId));
         return ResultFactory.success(result);
     }
 

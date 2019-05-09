@@ -42,6 +42,13 @@ public class BrandController {
         return ResultFactory.success(brandService.findAll());
     }
 
+    @GetMapping("/listPage")
+    public Result listAll(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer limit) {
+        return ResultFactory.success(brandService.findAll(page, limit));
+    }
+
     /**
      *  获取品牌列表，暂时用不到
      */
